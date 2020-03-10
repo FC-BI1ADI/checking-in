@@ -8,7 +8,7 @@ def geocode(address):
     base = 'http://restapi.amap.com/v3/geocode/geo'
     response = requests.get(base, parameters)
     answer = response.json()
-    print(address + "的经纬度：", answer['geocodes'][0]['location'])
+    # print(address + "的经纬度：", answer['geocodes'][0]['location'])
     return answer['geocodes'][0]['location']
 
 
