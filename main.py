@@ -47,7 +47,7 @@ for per_row in ws_OCR.iter_rows():
         OCR_list.append([department, id, name, check_time, source])
     row_index += 1
 # print("坐班打卡记录")
-# print(OCR_list)
+# for i in OCR_list: print(i)
 
 
 # 生成考勤记录列表
