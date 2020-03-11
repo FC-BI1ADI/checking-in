@@ -154,7 +154,7 @@ for i in range(0, len(OW_list)):
     if len(OW_list[i][5]) > 0:
         check_list.append([OW_list[i][0], OW_list[i][1], OW_list[i][2], OW_list[i][3], "外勤", OW_list[i][5]])
 
-#print(check_list)
+# for i in check_list: print(i)
 
 # 聚合check_list形成 day_list
 ##################################################################################
@@ -182,8 +182,8 @@ for i in range(0, len(check_list)):
             found = True
     if found == False:
         day_list.append([department, id, name, date, [], "", ""])
-# 至此已形成day_list的聚合表
-# print(day_list)
+    # 至此已形成day_list的聚合表
+    # print(day_list)
 
     # 对check_list打卡时间列表进行预处理
     check_list[i][5].sort()
@@ -200,15 +200,15 @@ for i in range(0, len(check_list)):
     # print(check_list[i][2], check_list[i][3], rec_item)
 
     # 再次扫描day_list，如果同一人、同一天那么合并rec字段
-    for j in range(0,len(day_list)):
+    for j in range(0, len(day_list)):
         if day_list[j][1] == id and day_list[j][3] == date:
             day_list[j][4].append(rec_item)
 
-# print(day_list)
+# for i in day_list: print(i)
 
 # 扫描获取考勤开始日期和结束日期
-for i in range(0,len(day_list)):
-    if i ==0:
+for i in range(0, len(day_list)):
+    if i == 0:
         start_date = day_list[i][3]
         end_date = day_list[i][3]
     else:
@@ -216,12 +216,27 @@ for i in range(0,len(day_list)):
             start_date = day_list[i][3]
         if day_list[i][3] > end_date:
             end_date = day_list[i][3]
-print(start_date,end_date)
+# print(start_date, end_date)
 # 根据开始和结束日期，生成日期范围列表date_list
 date_list = common.get_dates_bytimes(start_date, end_date)
-print(date_list)
+
 # 扫描获取user_list
-# user_list
+# user_list : department, id, name
+user_list = []
+for i in range(0, len(day_list)):
+    if len(user_list) == 0:
+        user_list.append([day_list[i][0], day_list[i][1], day_list[i][2]])
+    found = False
+    for j in range(0, len(user_list)):
+        if user_list[j][1] == day_list[i][1]:
+            found = True
+    if found == False:
+        user_list.append([day_list[i][0], day_list[i][1], day_list[i][2]])
+
+# for i in date_list: print(i)
+# for i in user_list: print(i)
+# for i in day_list: print(i)
+
 
 # address1 = '吉林省长春市二道区宽达路1501号附近-中海寰宇天下红郡'
 # address2 = '吉林省长春市南关区烟草总部大厦'
