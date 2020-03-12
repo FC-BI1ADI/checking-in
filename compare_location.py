@@ -43,3 +43,11 @@ if __name__ == '__main__':
     address = '北京市海淀区车道沟十号院'
     jw1 = geocode(address)
     print("%s 的经度：%f 纬度：%f"%(address, float(jw1.split(',')[0]), float(jw1.split(',')[1])))
+
+# address1 = '吉林省长春市二道区宽达路1501号附近-中海寰宇天下红郡'
+# address2 = '吉林省长春市南关区烟草总部大厦'
+#
+#
+# result = CL.compare_location(address1, address2, 500)
+# #
+# print(result)

@@ -151,7 +151,7 @@ for i in range(0, len(OW_list)):
 for i in range(0, len(OW_list)):
     # check_list : [department, id, name, date, "坐班", []
     # OW_list : [department, id, name, date, location, []]
-    if len(OW_list[i][5]) > 0:
+    if len(OW_list[i][5]) > 1:
         check_list.append([OW_list[i][0], OW_list[i][1], OW_list[i][2], OW_list[i][3], "外勤", OW_list[i][5]])
 
 # for i in check_list: print(i)
@@ -237,11 +237,81 @@ for i in range(0, len(day_list)):
 # for i in user_list: print(i)
 # for i in day_list: print(i)
 
+# 判断day_list中数据是否存在异常，此部分判断逻辑是考核的关键
+for per_row in day_list:
+    AM = "出勤"
+    PM = "出勤"
+    for per_item in per_row[4]:
+        type = per_item[0:2]
+        start_time = per_item[3:8]
+        end_time = per_item[9:14]
+        # print(start_time,end_time)
+        if type == "坐班":
+            if start_time > "09:05":
+                AM = "<迟到>"
+            if end_time < "17:30":
+                PM = "<早退>"
+            if start_time  == "XX:XX":
+                AM = "<缺勤>"
+            if end_time == "XX:XX":
+                PM = "<缺勤>"
+        if type == "外勤":
+            if start_time < "13:00":
+                AM = "出勤"
+            if end_time > "14:00":
+                PM = "出勤"
+    if AM != "出勤" or PM != "出勤":
+        if AM != "出勤":
+            per_row[5] = "异常"
+            per_row[6] += AM
+        if PM != "出勤":
+            per_row[5] = "异常"
+            per_row[6] += PM
 
-# address1 = '吉林省长春市二道区宽达路1501号附近-中海寰宇天下红郡'
-# address2 = '吉林省长春市南关区烟草总部大厦'
-#
-#
-# result = CL.compare_location(address1, address2, 500)
-# #
-# print(result)
+for i in day_list: print(i)
+
+####################################################################
+# 输出已经过检验的day_list列表至EXCLE xlsx文件中
+####################################################################
+
+output_file = "data/考勤报表.xlsx"
+
+# 创建考勤报表工作簿
+wb_report = Workbook()
+ws_report = wb_report.active
+# 写入表头
+header = ["部门", "员工编号", "姓名"] + date_list
+ws_report.append(header)
+
+# 写入用户信息
+for per_row in user_list:
+    ws_report.append(per_row)
+
+# 读day_list列表，将信息写入单元格
+# 定位单元格行row 列col
+
+for per_row in day_list:
+    for row_index in range(1,ws_report.max_row+1):
+        if per_row[1] == ws_report.cell(row_index,2).value:
+            break
+    for col_index in range(4,ws_report.max_column+1):
+        if per_row[3] == ws_report.cell(1,col_index).value:
+            break
+    # print(row_index,col_index)
+    # 拼接rec信息
+    cell_str = ""
+    for rec_item in per_row[4]:
+        cell_str += rec_item
+    # 写入单元格信息
+    ws_report.cell(row_index,col_index).value = cell_str
+
+
+
+
+
+
+
+    # 向考勤报表工作簿中写入考勤信息
+wb_report.save(filename=output_file)
+
+

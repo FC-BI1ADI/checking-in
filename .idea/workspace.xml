@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2c9d9c0-340b-4b3e-8386-8ac1b08948a0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compare_location.py" beforeDir="false" afterPath="$PROJECT_DIR$/compare_location.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -161,7 +163,21 @@
       <option name="project" value="LOCAL" />
       <updated>1583942418886</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="修改列表显示模式，由横向转为行列式">
+      <created>1583943696202</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1583943696202</updated>
+    </task>
+    <task id="LOCAL-00006" summary="修改列表显示模式，由横向转为行列式">
+      <created>1583943785747</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1583943785747</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -169,13 +185,14 @@
     <MESSAGE value="坐班签卡聚合" />
     <MESSAGE value="三同时判断" />
     <MESSAGE value="聚合check_list形成day_list" />
-    <option name="LAST_COMMIT_MESSAGE" value="聚合check_list形成day_list" />
+    <MESSAGE value="修改列表显示模式，由横向转为行列式" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改列表显示模式，由横向转为行列式" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="358" y="23" key="CommitChangelistDialog2" timestamp="1583943692403">
+    <state x="358" y="23" key="CommitChangelistDialog2" timestamp="1583943784320">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="358" y="23" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1583943692403" />
+    <state x="358" y="23" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1583943784320" />
     <state x="585" y="320" width="273" height="292" key="Github.ShareDialog" timestamp="1583680517269">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -184,38 +201,38 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="552" y="135" key="Github.UntrackedFilesDialog/0.0.1440.860@0.0.1440.860" timestamp="1583680033241" />
-    <state width="1419" height="222" key="GridCell.Tab.0.bottom" timestamp="1583943753247">
+    <state width="1419" height="276" key="GridCell.Tab.0.bottom" timestamp="1584033561578">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1419" height="222" key="GridCell.Tab.0.bottom/0.0.1440.860@0.0.1440.860" timestamp="1583943753247" />
-    <state width="1419" height="222" key="GridCell.Tab.0.center" timestamp="1583943753247">
+    <state width="1419" height="276" key="GridCell.Tab.0.bottom/0.0.1440.860@0.0.1440.860" timestamp="1584033561578" />
+    <state width="1419" height="276" key="GridCell.Tab.0.center" timestamp="1584033561578">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1419" height="222" key="GridCell.Tab.0.center/0.0.1440.860@0.0.1440.860" timestamp="1583943753247" />
-    <state width="1419" height="222" key="GridCell.Tab.0.left" timestamp="1583943753247">
+    <state width="1419" height="276" key="GridCell.Tab.0.center/0.0.1440.860@0.0.1440.860" timestamp="1584033561578" />
+    <state width="1419" height="276" key="GridCell.Tab.0.left" timestamp="1584033561578">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1419" height="222" key="GridCell.Tab.0.left/0.0.1440.860@0.0.1440.860" timestamp="1583943753247" />
-    <state width="1419" height="222" key="GridCell.Tab.0.right" timestamp="1583943753247">
+    <state width="1419" height="276" key="GridCell.Tab.0.left/0.0.1440.860@0.0.1440.860" timestamp="1584033561578" />
+    <state width="1419" height="276" key="GridCell.Tab.0.right" timestamp="1584033561578">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1419" height="222" key="GridCell.Tab.0.right/0.0.1440.860@0.0.1440.860" timestamp="1583943753247" />
-    <state width="1419" height="276" key="GridCell.Tab.1.bottom" timestamp="1583854501485">
+    <state width="1419" height="276" key="GridCell.Tab.0.right/0.0.1440.860@0.0.1440.860" timestamp="1584033561578" />
+    <state width="1419" height="276" key="GridCell.Tab.1.bottom" timestamp="1584033561578">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1419" height="276" key="GridCell.Tab.1.bottom/0.0.1440.860@0.0.1440.860" timestamp="1583854501485" />
-    <state width="1419" height="276" key="GridCell.Tab.1.center" timestamp="1583854501485">
+    <state width="1419" height="276" key="GridCell.Tab.1.bottom/0.0.1440.860@0.0.1440.860" timestamp="1584033561578" />
+    <state width="1419" height="276" key="GridCell.Tab.1.center" timestamp="1584033561578">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1419" height="276" key="GridCell.Tab.1.center/0.0.1440.860@0.0.1440.860" timestamp="1583854501485" />
-    <state width="1419" height="276" key="GridCell.Tab.1.left" timestamp="1583854501485">
+    <state width="1419" height="276" key="GridCell.Tab.1.center/0.0.1440.860@0.0.1440.860" timestamp="1584033561578" />
+    <state width="1419" height="276" key="GridCell.Tab.1.left" timestamp="1584033561578">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1419" height="276" key="GridCell.Tab.1.left/0.0.1440.860@0.0.1440.860" timestamp="1583854501485" />
-    <state width="1419" height="276" key="GridCell.Tab.1.right" timestamp="1583854501485">
+    <state width="1419" height="276" key="GridCell.Tab.1.left/0.0.1440.860@0.0.1440.860" timestamp="1584033561578" />
+    <state width="1419" height="276" key="GridCell.Tab.1.right" timestamp="1584033561578">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1419" height="276" key="GridCell.Tab.1.right/0.0.1440.860@0.0.1440.860" timestamp="1583854501485" />
+    <state width="1419" height="276" key="GridCell.Tab.1.right/0.0.1440.860@0.0.1440.860" timestamp="1584033561578" />
     <state x="221" y="72" key="SettingsEditor" timestamp="1583640614376">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -234,8 +251,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>146</line>
-          <option name="timeStamp" value="7" />
+          <line>304</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
