@@ -235,6 +235,171 @@ for i in range(0, len(check_list)):
         if day_list[j][1] == id and day_list[j][3] == date:
             day_list[j][4].append(rec_item)
 
+#########################################################
+# 读入请假单，处理请假事项
+#########################################################
+# 读入请假记录关键字段至AFL_list中（ask for leave)
+AFL_list = []
+
+wb_AFL = openpyxl.load_workbook(filename="data/IN请假单.xlsx")
+ws_AFL = wb_AFL.active
+
+row_index = 1
+for per_row in ws_AFL.iter_rows():
+    if row_index > 3:
+        department = per_row[3].value
+        id = per_row[1].value
+        name = per_row[2].value
+        type = per_row[6].value
+        hst_time = time.strptime(per_row[7].value, "%Y-%m-%d %H:%M")
+        het_time = time.strptime(per_row[8].value, "%Y-%m-%d %H:%M")
+        AFL_list.append([department, id, name, type, hst_time,het_time])
+    row_index += 1
+
+# for i in AFL_list:
+#     print(i)
+
+# day_list字段如下：
+# department, id, name, date, rec, status, reason
+# rec为记录签卡情况的列表，status(正常|异常），reason为异常原因（迟到｜早退｜缺勤）
+# for i in day_list:
+#     print(i[4][0])
+#     print(re.findall(r'\d\d:\d\d', i[4][0]))
+
+# 请假是以小时进行的，分解假期按此更新day_list
+for row_index in range(0,len(day_list)):
+    # 读入一条day_list记录,看看是否能找到对应请假
+    m_id = day_list[row_index][1]
+    m_day = day_list[row_index][3]
+    m_found = False
+
+    # AFL_list: department, id, name, type, hst_time,het_time
+    for AFL_per_row in AFL_list:
+
+        if AFL_per_row[1] == m_id:
+            # 读入请假类型、开始和结束时间，根据day_list列表中的时间进行分解
+            hid = AFL_per_row[1]
+            htype = AFL_per_row[3]
+            hst_time = AFL_per_row[4]
+            het_time = AFL_per_row[5]
+            H_time_list = []
+            print(AFL_per_row)
+            # 生成 H_time_list
+            if het_time.tm_year == hst_time.tm_year and het_time.tm_mon == hst_time.tm_mon and het_time.tm_mday == hst_time.tm_mday:
+                # 假期为1天的
+                cur_day_str = "%04d-%02d-%02d"%(hst_time.tm_year,hst_time.tm_mon,hst_time.tm_mday)
+                H_time_list.append([cur_day_str,"%02d:%02d"%(hst_time.tm_hour,hst_time.tm_min),"%02d:%02d"%(het_time.tm_hour,het_time.tm_min)])
+            else:
+                # 假期为多天的
+                for day_index in range(0,het_time.tm_mday-hst_time.tm_mday+1):
+                    cur_day = time.gmtime(time.mktime(hst_time) + 86400*day_index)
+                    cur_day_str = "%04d-%02d-%02d" % (cur_day.tm_year, cur_day.tm_mon, cur_day.tm_mday)
+                    print(cur_day_str)
+                    # 开始日期，取开始时间
+                    if day_index == 0:
+                        H_time_list.append([cur_day_str,"%02d:%02d"%(hst_time.tm_hour,hst_time.tm_min),"17:31"])
+                    # 假期中日期，直接取符合要求的时间
+                    if day_index !=0 and day_index != het_time.tm_mday-hst_time.tm_mday:
+                        H_time_list.append([cur_day_str,"08:59","17:31"])
+                    # 末尾日期，取结束时间
+                    if day_index == het_time.tm_mday-hst_time.tm_mday:
+                        H_time_list.append([cur_day_str,"08:59","%02d:%02d"%(het_time.tm_hour,het_time.tm_min)])
+            # 比较H_time_list和m_day，若相同给m_rec增加1条休假记录type(起止时间)
+            for per_h_rec in H_time_list:
+                if per_h_rec[0] == m_day:
+                    day_list[row_index][4].append("%s(%s:%s)"%(htype,per_h_rec[1],per_h_rec[2]))
+
+
+for i in day_list:
+    while i[1] == "344":
+        print(i)
+        break
+    # for row_index in range(0,len(day_list)):
+    #
+    #     # 若ID相同，比较时间范围是否在请假时段内
+    #     if day_list[row_index][1] == hid:
+    #         # 获取day_list中的日期，并设置st_time和et_time为当日上下班打卡时间
+    #         st_time = time.strptime(day_list[row_index][3] + " 09:05", "%Y-%m-%d %H:%M")
+    #         et_time = time.strptime(day_list[row_index][3] + " 17:30", "%Y-%m-%d %H:%M")
+    #         # 选取请假时间中与当日打卡时间中符合要求的时间作为记录时间
+    #
+    #         # 同一天
+    #         if hst_time < st_time:
+    #             recs_time = time.strptime(day_list[row_index][3] + " 08:59", "%Y-%m-%d %H:%M")
+    #         else:
+    #             recs_time =  hst_time
+    #         if het_time > et_time:
+    #             rece_time = time.strptime(day_list[row_index][3] + " 08:59", "%Y-%m-%d %H:%M")
+    #         else:
+    #             rece_time = het_time
+    #         # 将记录时间以休假类型加时间的方式写入day_list
+    #         rec_str = "%s(%02d:%02d-%02d:%02d)"%(htype,recs_time.tm_hour,recs_time.tm_min,rece_time.tm_hour,rece_time.tm_min)
+    #         print(rec_str)
+#
+#
+#
+#             break
+#
+#         rec_str = ""
+#         M_flag = False
+#         # 处理外勤记录特例，获取rec_str
+#         for per_item in day_list[row_index][4]:
+#             # print(day_list[row_index])
+#             # print(per_item)
+#             if len(per_item) < 15:
+#                 break
+#             type = per_item[0:2]
+#             start_time = per_item[3:8]
+#             end_time = per_item[9:14]
+#
+#             if type == "外勤":
+#                 if start_time < "13:00":
+#                     rec_str += "08:59"
+#                 if end_time > "14:00":
+#                     rec_str += "17:31"
+#             rec_str += per_item
+#         # 获取rec_str
+#         # print(rec_str)
+#         rec = re.findall(r'\d\d:\d\d', rec_str)
+#         rec.sort()
+#         st = rec[0]
+#         et = rec[len(rec)-1]
+#
+#         # 转换成TIME结构
+#         rst_time = time.strptime(day_list[row_index][3] + " " + st, "%Y-%m-%d %H:%M")
+#         ret_time = time.strptime(day_list[row_index][3] + " " + et, "%Y-%m-%d %H:%M")
+#         if rst_time < hst_time:
+#             st_time = rst_time
+#         else:
+#             st_time = hst_time
+#         if ret_time > het_time:
+#             et_time = ret_time
+#         else:
+#             et_time = het_time
+#         # 输出st_time,et_time
+#         # print(day_list[row_index][3],time.strftime("%Y-%m-%d %H:%M",st_time),time.strftime("%Y-%m-%d %H:%M",et_time))
+#
+#         # 比较最小时间st_time和最大时间et_time与当天的考勤时间是否符合
+#         if st_time < time.strptime(day_list[row_index][3] + " 09:05", "%Y-%m-%d %H:%M") and et_time >= time.strptime(day_list[row_index][3] + " 17:30", "%Y-%m-%d %H:%M"):
+#             M_flag = True
+#             # for i in day_list[row_index][4]:
+#             #     if i == "年假" or i == "事假" or i == "倒休":
+#             #         found = True
+#
+#         if M_flag == True:
+#             # if day_list[row_index][1] == "82":
+#             #     print(AFL_per_row[3])
+#             #     print(day_list[row_index][4])
+#
+#             day_list[row_index][4].append(AFL_per_row[3])
+#             day_list[row_index][5] = ""
+#
+# # 删除day_list中重复的休假类型
+# for per_row in day_list:
+#     per_row[4] = list(set(per_row[4]))
+
+
+
 # for i in day_list:
 #     while i[1] == "1053":
 #         print(i)
@@ -271,8 +436,9 @@ for i in range(0, len(day_list)):
 # # for i in date_list: print(i)
 # # for i in user_list: print(i)
 
-#
+###########################################################
 # 判断day_list中数据是否存在异常，此部分判断逻辑是考核的关键
+###########################################################
 for per_row in day_list:
     AM = "出勤"
     PM = "出勤"
@@ -304,105 +470,12 @@ for per_row in day_list:
             per_row[6] += PM
 
 
-# 读请假文件，请假是以小时进行的，按此更新day_list
-# 读入请假记录关键字段至AFL_list中（ask for leave)
-AFL_list = []
-
-wb_AFL = openpyxl.load_workbook(filename="data/IN请假单.xlsx")
-ws_AFL = wb_AFL.active
-
-row_index = 1
-for per_row in ws_AFL.iter_rows():
-    if row_index > 3:
-        department = per_row[3].value
-        id = per_row[1].value
-        name = per_row[2].value
-        type = per_row[6].value
-        hst_time = time.strptime(per_row[7].value, "%Y-%m-%d %H:%M")
-        het_time = time.strptime(per_row[8].value, "%Y-%m-%d %H:%M")
-        AFL_list.append([department, id, name, type, hst_time,het_time])
-    row_index += 1
-
-# for i in AFL_list:
-#     print(i)
-
-# day_list字段如下：
-# department, id, name, date, rec, status, reason
-# rec为记录签卡情况的列表，status(正常|异常），reason为异常原因（迟到｜早退｜缺勤）
-# for i in day_list:
-#     print(i[4][0])
-#     print(re.findall(r'\d\d:\d\d', i[4][0]))
-
-for AFL_per_row in AFL_list:
-    # 扫描day_list, 为每条day_list记录判断是否请假的依据
-    hst_time = AFL_per_row[4]
-    het_time = AFL_per_row[5]
-
-    for row_index in range(0,len(day_list)):
-        rec_str = ""
-        M_flag = False
-        # 处理外勤记录特例，获取rec_str
-        for per_item in day_list[row_index][4]:
-            # print(day_list[row_index])
-            # print(per_item)
-            if len(per_item) < 15:
-                break
-            type = per_item[0:2]
-            start_time = per_item[3:8]
-            end_time = per_item[9:14]
-
-            if type == "外勤":
-                if start_time < "13:00":
-                    rec_str += "08:59"
-                if end_time > "14:00":
-                    rec_str += "17:31"
-            rec_str += per_item
-        # 获取rec_str
-        # print(rec_str)
-        rec = re.findall(r'\d\d:\d\d', rec_str)
-        rec.sort()
-        st = rec[0]
-        et = rec[len(rec)-1]
-
-        # 转换成TIME结构
-        rst_time = time.strptime(day_list[row_index][3] + " " + st, "%Y-%m-%d %H:%M")
-        ret_time = time.strptime(day_list[row_index][3] + " " + et, "%Y-%m-%d %H:%M")
-        if rst_time < hst_time:
-            st_time = rst_time
-        else:
-            st_time = hst_time
-        if ret_time > het_time:
-            et_time = ret_time
-        else:
-            et_time = het_time
-        # 输出st_time,et_time
-        # print(day_list[row_index][3],time.strftime("%Y-%m-%d %H:%M",st_time),time.strftime("%Y-%m-%d %H:%M",et_time))
-
-        # 比较最小时间st_time和最大时间et_time与当天的考勤时间是否符合
-        if st_time < time.strptime(day_list[row_index][3] + " 09:05", "%Y-%m-%d %H:%M") and et_time >= time.strptime(day_list[row_index][3] + " 17:30", "%Y-%m-%d %H:%M"):
-            M_flag = True
-            # for i in day_list[row_index][4]:
-            #     if i == "年假" or i == "事假" or i == "倒休":
-            #         found = True
-
-        if M_flag == True:
-            # print(AFL_per_row[3])
-            #print(day_list[row_index][4])
-            day_list[row_index][4].append(AFL_per_row[3])
-            day_list[row_index][5] = ""
 
 
-
-
-
-
-
-
-
-
-
-# for i in day_list:
-#     print(i)
+for i in day_list:
+    while i[1] == "280":
+        print(i)
+        break
 
 # 在此处导出异常记录到文件中
 # for i in day_list:
@@ -465,6 +538,7 @@ for per_row in day_list:
 orange_fill = openpyxl.styles.PatternFill(fgColor="FFA500",fill_type='solid' )
 yellow_fill = openpyxl.styles.PatternFill(fgColor="FFFF00",fill_type='solid' )
 blue_fill = openpyxl.styles.PatternFill( fgColor="6495ED",fill_type='solid')
+green_fill = openpyxl.styles.PatternFill( fgColor="9BCD9B",fill_type='solid')
 
 
 # 扫描ws_report表，标注休息日
@@ -490,6 +564,8 @@ for row_index in range(1,ws_report.max_row+1):
             ws_report.cell(row_index,col_index).fill = yellow_fill
         if cell_str.find("<") != -1:
             ws_report.cell(row_index, col_index).fill = orange_fill
+        if cell_str.find("休假") != -1:
+            ws_report.cell(row_index, col_index).fill = green_fill
         # if cell_str.find("XX:XX") != -1:
         #     ws_report.cell(row_index, col_index).fill = orange_fill
         # if cell_str.find("<早退>") != -1:
