@@ -8,8 +8,13 @@ def geocode(address):
     base = 'http://restapi.amap.com/v3/geocode/geo'
     response = requests.get(base, parameters)
     answer = response.json()
-    # print(address + "的经纬度：", answer['geocodes'][0]['location'])
-    return answer['geocodes'][0]['location']
+
+    if len(answer['geocodes']) < 1:
+        print("ERROR：未识别地址[%s]"%(address))
+        return False
+    else:
+        # print(address + "的经纬度：", answer['geocodes'][0]['location'])
+        return answer['geocodes'][0]['location']
 
 
 def geodistance(lng1, lat1, lng2, lat2):
@@ -28,14 +33,19 @@ def geodistance(lng1, lat1, lng2, lat2):
 # address2:字符串类型
 # precision:数字类型，精度以米为单位
 def compare_location(address1, address2, precision):
-    loc1 = geocode(address1).split(',')
-    loc2 = geocode(address2).split(',')
-    distance = geodistance(float(loc1[0]), float(loc1[1]), float(loc2[0]), float(loc2[1]))
-    # print(loc1, loc2, distance)
-    if distance < precision:
-        return 1
+    loc1 = geocode(address1)
+    loc2 = geocode(address2)
+    if loc1 != False and loc2 != False:
+        loc1 = loc1.split(',')
+        loc2 = loc2.split(',')
+        distance = geodistance(float(loc1[0]), float(loc1[1]), float(loc2[0]), float(loc2[1]))
+        # print(loc1, loc2, distance)
+        if distance < precision:
+            return 1
+        else:
+            return 0
     else:
-        return 0
+        return -1
 
 
 if __name__ == '__main__':
