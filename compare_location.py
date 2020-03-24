@@ -47,12 +47,27 @@ def compare_location(address1, address2, precision):
     else:
         return -1
 
+def distance_2locations(address1, address2):
+    loc1 = geocode(address1)
+    loc2 = geocode(address2)
+    if loc1 != False and loc2 != False:
+        loc1 = loc1.split(',')
+        loc2 = loc2.split(',')
+        distance = geodistance(float(loc1[0]), float(loc1[1]), float(loc2[0]), float(loc2[1]))
+        # print(loc1, loc2, distance)
+        return distance
+    else:
+        return -1
 
 if __name__ == '__main__':
     # address = input("请输入地址:")
-    address = '北京市海淀区车道沟十号院'
-    jw1 = geocode(address)
-    print("%s 的经度：%f 纬度：%f"%(address, float(jw1.split(',')[0]), float(jw1.split(',')[1])))
+    address1 = "陕西省西安市雁塔区西京酒店"
+    address2 = "陕西省西安市雁塔区电子西街西京3号－西京酒店（高新电子城店）"
+    jw1 = geocode(address1)
+    jw2 = geocode(address2)
+    print("记录单地址[%s 的经度：%f 纬度：%f]"%(address1, float(jw1.split(',')[0]), float(jw1.split(',')[1])))
+    print("签卡地址  [%s 的经度：%f 纬度：%f]"%(address2, float(jw1.split(',')[0]), float(jw1.split(',')[1])))
+    print("系统判断两者相距：%s ,系统判断是否为同一结果：%s"%(distance_2locations(address1,address2),compare_location(address1, address2, 400)))
 
 # address1 = '吉林省长春市二道区宽达路1501号附近-中海寰宇天下红郡'
 # address2 = '吉林省长春市南关区烟草总部大厦'

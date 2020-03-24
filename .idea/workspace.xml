@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2c9d9c0-340b-4b3e-8386-8ac1b08948a0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/date_calculator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/checking-in.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/checking-in.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compare_location.py" beforeDir="false" afterPath="$PROJECT_DIR$/compare_location.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/base_info.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/base_info.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,7 +43,19 @@
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="TEXT" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.compare_location">
     <configuration name="compare_location" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="checking-in" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -122,7 +134,7 @@
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="EMULATE_TERMINAL" value="true" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
@@ -130,23 +142,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.compare_location" />
         <item itemvalue="Python.date_calculator" />
         <item itemvalue="Python.excel_xlsx" />
-        <item itemvalue="Python.compare_location" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -224,6 +224,17 @@
     </task>
     <option name="localTasksCounter" value="10" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="提交代码到github" />
