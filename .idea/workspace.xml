@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d2c9d9c0-340b-4b3e-8386-8ac1b08948a0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/checking-in.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/checking-in.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compare_location.py" beforeDir="false" afterPath="$PROJECT_DIR$/compare_location.py" afterDir="false" />
-    </list>
+    <list default="true" id="d2c9d9c0-340b-4b3e-8386-8ac1b08948a0" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,7 +217,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584254574076</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="修改距离判断函数，可以直接比对距离">
+      <created>1585047321758</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1585047321758</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -245,7 +247,8 @@
     <MESSAGE value="检查考勤项目" />
     <MESSAGE value="请假扫描逻辑错误前备份" />
     <MESSAGE value="请假数据已正确解析，但仍有未完全覆盖问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="请假数据已正确解析，但仍有未完全覆盖问题" />
+    <MESSAGE value="修改距离判断函数，可以直接比对距离" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改距离判断函数，可以直接比对距离" />
   </component>
   <component name="WindowStateProjectService">
     <state x="400" y="165" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1584151431138">
