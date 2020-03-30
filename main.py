@@ -146,8 +146,9 @@ ws_outwork = wb_outwork.active
 row_index = 1
 for per_row in ws_outwork.iter_rows():
     if row_index > 3:
-        OW_list.append([per_row[3].value, str(int(per_row[2].value)), per_row[1].value, per_row[4].value, per_row[8].value, []])
+        OW_list.append([per_row[3].value, str(int(per_row[2].value)), per_row[1].value, per_row[4].value, per_row[9].value, []])
     row_index += 1
+
 
 # 比对外勤打卡记录MCR_list
 for i in range(0, len(OW_list)):
@@ -156,8 +157,9 @@ for i in range(0, len(OW_list)):
         date = "%4d-%02d-%02d" % (MCR_list[j][3].tm_year, MCR_list[j][3].tm_mon, MCR_list[j][3].tm_mday)
         # 判断核心逻辑：如果同一人、同一天、同一地点，则添加记录到OW_list中
         if MCR_list[j][1] == OW_list[i][1] and date == OW_list[i][3] and CL.compare_location(MCR_list[j][4],
-                                                                                             OW_list[i][4], 400):
+                                                                                             OW_list[i][4], 500) == 1:
             OW_list[i][5].append("%02d:%02d" % (MCR_list[j][3].tm_hour, MCR_list[j][3].tm_min))
+
 
 # 添加OW_list中有效数据至check_list中
 for i in range(0, len(OW_list)):
@@ -166,6 +168,8 @@ for i in range(0, len(OW_list)):
     # 如果签卡次数 >= 2 ，则将所有签卡记录都加入列表中
     if len(OW_list[i][5]) > 1:
         check_list.append([OW_list[i][0], OW_list[i][1], OW_list[i][2], OW_list[i][3], "外勤", OW_list[i][5]])
+
+
 
 #############################################################################
 # 读入请假单，处理请假事项
@@ -272,6 +276,7 @@ for i in range(0, len(check_list)):
         day_list.append([department, id, name, date, [], "", ""])
     # 至此已形成day_list的聚合表
 
+
     # 对check_list打卡时间列表进行预处理
     check_list[i][5].sort()
     n = len(check_list[i][5])
@@ -322,6 +327,9 @@ for i in range(0, len(day_list)):
     if found == False:
         user_list.append([day_list[i][0], day_list[i][1], day_list[i][2]])
 
+
+
+
 #############################################################################
 # 判断day_list中数据是否存在异常，此部分判断逻辑是考核的关键
 #############################################################################
@@ -344,7 +352,12 @@ for per_row in day_list:
                 AM = "<缺勤>"
             if end_time == "XX:XX":
                 PM = "<缺勤>"
+
     # 根据当日最小值和最大值来清除标志位
+    if min_time == "12:00":
+        AM = "<缺勤>"
+    if max_time == "12:00":
+        PM = "<缺勤>"
     if min_time > "09:05" and min_time != "12:00":
         AM = "<迟到>"
     if max_time < "17:30" and max_time != "12:00":
