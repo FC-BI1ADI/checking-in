@@ -38,8 +38,7 @@ def trans_checking_in(cell_str):
         return "出差09:00-17:30"
     if str(cell_str).find("调休") != -1:
         return "调休09:00-17:30"
-
-#modify
+# modify
     return str(cell_str)
 
 

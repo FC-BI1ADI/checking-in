@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d2c9d9c0-340b-4b3e-8386-8ac1b08948a0" name="Default Changelist" comment="">
+    <list default="true" id="d2c9d9c0-340b-4b3e-8386-8ac1b08948a0" name="Default Changelist" comment="完成请假单的处理">
+      <change afterPath="$PROJECT_DIR$/main.spec" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summarize_out.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compare_location.py" beforeDir="false" afterPath="$PROJECT_DIR$/compare_location.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/base_info.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/base_info.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/excel_xlsx.py" beforeDir="false" afterPath="$PROJECT_DIR$/excel_xlsx.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,6 +32,13 @@
       </set>
     </option>
   </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
   <component name="ProjectId" id="1YpPeesp0PMMqHbRe2LV6OAmGzf" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -40,14 +49,14 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="TEXT" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="copyright" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\PROC\Projects\checking-in" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.compare_location">
+  <component name="RunManager" selected="Python.main">
     <configuration name="compare_location" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="checking-in" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -175,7 +184,7 @@
     </option>
   </component>
   <component name="SvnConfiguration">
-    <configuration />
+    <configuration>C:\Users\FC\AppData\Roaming\Subversion</configuration>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -271,6 +280,14 @@
     <option name="LAST_COMMIT_MESSAGE" value="完成请假单的处理" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="212" y="5" key="#Notifications" timestamp="1586158016411">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="212" y="5" key="#Notifications/0.0.1440.860@0.0.1440.860" timestamp="1586158016411" />
+    <state x="458" y="232" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1585577867038">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="458" y="232" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.860@0.0.1440.860" timestamp="1585577867038" />
     <state x="400" y="165" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1584151431138">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -283,14 +300,19 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="475" y="131" key="#xdebugger.evaluate/0.0.1440.860@0.0.1440.860" timestamp="1585150230628" />
-    <state x="358" y="23" key="CommitChangelistDialog2" timestamp="1584850866124">
+    <state x="358" y="23" key="CommitChangelistDialog2" timestamp="1586069222241">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="358" y="23" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1584850866124" />
-    <state x="92" y="92" width="1256" height="676" key="DiffContextDialog" timestamp="1585147764372">
+    <state x="358" y="23" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1586069222241" />
+    <state x="250" y="78" key="DBNavigator.ProjectSettingsDialog" timestamp="1586157601308">
       <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="250" y="78" key="DBNavigator.ProjectSettingsDialog/0.0.1440.860@0.0.1440.860" timestamp="1586157601308" />
+    <state x="131" y="119" width="1787" height="875" key="DiffContextDialog" timestamp="1586528077477">
+      <screen x="0" y="0" width="2048" height="1112" />
     </state>
     <state x="92" y="92" width="1256" height="676" key="DiffContextDialog/0.0.1440.860@0.0.1440.860" timestamp="1585147764372" />
+    <state x="131" y="119" width="1787" height="875" key="DiffContextDialog/0.0.2048.1112@0.0.2048.1112" timestamp="1586528077477" />
     <state x="500" y="184" key="FileChooserDialogImpl" timestamp="1585381746844">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -303,22 +325,22 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="552" y="135" key="Github.UntrackedFilesDialog/0.0.1440.860@0.0.1440.860" timestamp="1583680033241" />
-    <state width="1419" height="209" key="GridCell.Tab.0.bottom" timestamp="1585576620188">
+    <state width="1387" height="202" key="GridCell.Tab.0.bottom" timestamp="1586158436875">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1419" height="209" key="GridCell.Tab.0.bottom/0.0.1440.860@0.0.1440.860" timestamp="1585576620188" />
-    <state width="1419" height="209" key="GridCell.Tab.0.center" timestamp="1585576620188">
+    <state width="1387" height="202" key="GridCell.Tab.0.bottom/0.0.1440.860@0.0.1440.860" timestamp="1586158436875" />
+    <state width="1387" height="202" key="GridCell.Tab.0.center" timestamp="1586158436875">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1419" height="209" key="GridCell.Tab.0.center/0.0.1440.860@0.0.1440.860" timestamp="1585576620188" />
-    <state width="1419" height="209" key="GridCell.Tab.0.left" timestamp="1585576620187">
+    <state width="1387" height="202" key="GridCell.Tab.0.center/0.0.1440.860@0.0.1440.860" timestamp="1586158436875" />
+    <state width="1387" height="202" key="GridCell.Tab.0.left" timestamp="1586158436875">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1419" height="209" key="GridCell.Tab.0.left/0.0.1440.860@0.0.1440.860" timestamp="1585576620187" />
-    <state width="1419" height="209" key="GridCell.Tab.0.right" timestamp="1585576620188">
+    <state width="1387" height="202" key="GridCell.Tab.0.left/0.0.1440.860@0.0.1440.860" timestamp="1586158436875" />
+    <state width="1387" height="202" key="GridCell.Tab.0.right" timestamp="1586158436875">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1419" height="209" key="GridCell.Tab.0.right/0.0.1440.860@0.0.1440.860" timestamp="1585576620188" />
+    <state width="1387" height="202" key="GridCell.Tab.0.right/0.0.1440.860@0.0.1440.860" timestamp="1586158436875" />
     <state width="1419" height="276" key="GridCell.Tab.1.bottom" timestamp="1585151475507">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -335,14 +357,18 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state width="1419" height="276" key="GridCell.Tab.1.right/0.0.1440.860@0.0.1440.860" timestamp="1585151475507" />
-    <state x="221" y="72" key="SettingsEditor" timestamp="1585386952544">
+    <state x="523" y="52" key="RollbackChangesDialog" timestamp="1586156782641">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="221" y="72" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1585386952544" />
-    <state x="312" y="163" key="Vcs.Push.Dialog.v2" timestamp="1584850881926">
+    <state x="523" y="52" key="RollbackChangesDialog/0.0.1440.860@0.0.1440.860" timestamp="1586156782641" />
+    <state x="180" y="0" key="SettingsEditor" timestamp="1586158209572">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1584850881926" />
+    <state x="180" y="0" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1586158209572" />
+    <state x="312" y="163" key="Vcs.Push.Dialog.v2" timestamp="1586144412150">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1586144412150" />
     <state width="728" height="438" key="XDebugger.FullValuePopup" timestamp="1585149453527">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
@@ -355,10 +381,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="418" y="220" key="git4idea.merge.GitPullDialog/0.0.1440.860@0.0.1440.860" timestamp="1585147720303" />
-    <state x="383" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1583677523745">
+    <state x="521" y="116" width="840" height="678" key="search.everywhere.popup" timestamp="1586156890490">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="383" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1583677523745" />
+    <state x="521" y="116" width="840" height="678" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1586156890490" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -27,7 +27,6 @@ prompt = '''
     3.处理完毕会生成 OUT考勤报表.xlsx 文件
 #############################################################################
 '''
-
 # input(prompt)
 
 
@@ -146,9 +145,9 @@ ws_outwork = wb_outwork.active
 row_index = 1
 for per_row in ws_outwork.iter_rows():
     if row_index > 3:
-        OW_list.append([per_row[3].value, str(int(per_row[2].value)), per_row[1].value, per_row[4].value, per_row[9].value, []])
+        OW_list.append(
+            [per_row[3].value, str(int(per_row[2].value)), per_row[1].value, per_row[4].value, per_row[9].value, []])
     row_index += 1
-
 
 # 比对外勤打卡记录MCR_list
 for i in range(0, len(OW_list)):
@@ -160,7 +159,6 @@ for i in range(0, len(OW_list)):
                                                                                              OW_list[i][4], 500) == 1:
             OW_list[i][5].append("%02d:%02d" % (MCR_list[j][3].tm_hour, MCR_list[j][3].tm_min))
 
-
 # 添加OW_list中有效数据至check_list中
 for i in range(0, len(OW_list)):
     # check_list : [department, id, name, date, "考勤", []
@@ -168,8 +166,6 @@ for i in range(0, len(OW_list)):
     # 如果签卡次数 >= 2 ，则将所有签卡记录都加入列表中
     if len(OW_list[i][5]) > 1:
         check_list.append([OW_list[i][0], OW_list[i][1], OW_list[i][2], OW_list[i][3], "外勤", OW_list[i][5]])
-
-
 
 #############################################################################
 # 读入请假单，处理请假事项
@@ -276,7 +272,6 @@ for i in range(0, len(check_list)):
         day_list.append([department, id, name, date, [], "", ""])
     # 至此已形成day_list的聚合表
 
-
     # 对check_list打卡时间列表进行预处理
     check_list[i][5].sort()
     n = len(check_list[i][5])
@@ -327,9 +322,6 @@ for i in range(0, len(day_list)):
     if found == False:
         user_list.append([day_list[i][0], day_list[i][1], day_list[i][2]])
 
-
-
-
 #############################################################################
 # 判断day_list中数据是否存在异常，此部分判断逻辑是考核的关键
 #############################################################################
@@ -358,13 +350,20 @@ for per_row in day_list:
         AM = "<缺勤>"
     if max_time == "12:00":
         PM = "<缺勤>"
-    if min_time > "09:05" and min_time != "12:00":
-        AM = "<迟到>"
-    if max_time < "17:30" and max_time != "12:00":
-        PM = "<早退>"
     if min_time < "09:05" and max_time >= "17:30":
         AM = "出勤"
         PM = "出勤"
+    # 处理新疆地区的记录
+    if per_row[0].find("新疆") != -1:
+        if min_time > "10:30" and min_time != "12:00":
+            AM = "<迟到>"
+        if max_time < "19:00" and max_time != "12:00":
+            PM = "<早退>"
+    else:
+        if min_time > "09:05" and min_time != "12:00":
+            AM = "<迟到>"
+        if max_time < "17:30" and max_time != "12:00":
+            PM = "<早退>"
     # 单独处理外勤记录
     for per_item in per_row[4]:
         type = per_item[0:2]
@@ -426,6 +425,9 @@ for per_row in day_list:
     # 写入单元格信息
     ws_report.cell(row_index, col_index).value = cell_str
 
+
+
+
 # 标注单元格颜色
 orange_fill = openpyxl.styles.PatternFill(fgColor="FFA500", fill_type='solid')
 yellow_fill = openpyxl.styles.PatternFill(fgColor="FFFF00", fill_type='solid')
@@ -439,30 +441,33 @@ for col_index in range(4, ws_report.max_column + 1):
     # 如果是周末，那就标注为休息并将单元格标为蓝色
     if date_header.tm_wday == 5 or date_header.tm_wday == 6:
         for row_index in range(2, ws_report.max_row + 1):
-            if ws_report.cell(row_index, col_index).value == None:
-                ws_report.cell(row_index, col_index).value = "休息"
-            else:
-                ws_report.cell(row_index, col_index).value = "休息\n" + str(ws_report.cell(row_index, col_index).value)
+            # if ws_report.cell(row_index, col_index).value == None:
+            #     ws_report.cell(row_index, col_index).value = "休息"
+            # else:
+            #     ws_report.cell(row_index, col_index).value = "休息\n" + str(ws_report.cell(row_index, col_index).value)
+            ws_report.cell(row_index, col_index).value = "休息"
             ws_report.cell(row_index, col_index).fill = blue_fill
 
 # 扫描ws_report表，如果单元格内容为空，则意味着缺少考勤记录标记为橙色
-for row_index in range(1, ws_report.max_row + 1):
+for row_index in range(2, ws_report.max_row + 1):
     for col_index in range(4, ws_report.max_column + 1):
         cell_str = str(ws_report.cell(row_index, col_index).value)
         # print(row_index,col_index,"-",cell_str)
         if cell_str == "None":
-            ws_report.cell(row_index, col_index).value = "缺勤"
+            ws_report.cell(row_index, col_index).value = "<缺勤>"
             ws_report.cell(row_index, col_index).fill = yellow_fill
         if cell_str.find("<") != -1:
             ws_report.cell(row_index, col_index).fill = orange_fill
-        if cell_str.find("休假") != -1:
-            ws_report.cell(row_index, col_index).fill = green_fill
-        # if cell_str.find("XX:XX") != -1:
-        #     ws_report.cell(row_index, col_index).fill = orange_fill
-        # if cell_str.find("<早退>") != -1:
-        #     ws_report.cell(row_index, col_index).fill = orange_fill
-        # if cell_str.find("<迟到>") != -1:
-        #     ws_report.cell(row_index, col_index).fill = orange_fill
+        # 自动换行设置
+        ws_report.cell(row_index, col_index).alignment = openpyxl.styles.Alignment(wrapText=True)
+
+# 设置列宽
+ws_report.column_dimensions['A'].width = 20
+ws_report.column_dimensions['B'].width = 10
+ws_report.column_dimensions['C'].width = 10
+for col_index in range(4, ws_report.max_column + 1):
+    col_char = openpyxl.utils.get_column_letter(col_index)
+    ws_report.column_dimensions[col_char].width = 20
 
 # 向考勤报表工作簿中写入考勤信息
 output_file = "data/OUT考勤报表.xlsx"

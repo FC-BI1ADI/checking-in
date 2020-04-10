@@ -10,7 +10,7 @@ def geocode(address):
     answer = response.json()
 
     if len(answer['geocodes']) < 1:
-        print("ERROR：未识别地址[%s]"%(address))
+        print("ERROR：未识别地址[%s]" % (address))
         return False
     else:
         # print(address + "的经纬度：", answer['geocodes'][0]['location'])
@@ -47,6 +47,7 @@ def compare_location(address1, address2, precision):
     else:
         return -1
 
+
 def distance_2locations(address1, address2):
     loc1 = geocode(address1)
     loc2 = geocode(address2)
@@ -59,13 +60,14 @@ def distance_2locations(address1, address2):
     else:
         return -1
 
+
 if __name__ == '__main__':
     # address = input("请输入地址:")
-    address1 = "广西壮族自治区贵港市港北区迎宾大道中段西侧狮岭路1号-贵港市妇幼保健院"
-    address2 = "广西壮族自治区贵港市港北区-迎宾大道"
+    address1 = "湖南省长沙市芙蓉区司法警官职业技术学院"
+    address2 = "湖南省长沙市天心区凌云东路与凌云路交叉口西南200米-长沙理工大学综合教学楼(西南门)"
     jw1 = geocode(address1)
     jw2 = geocode(address2)
-    print("记录单地址[%s 的经度：%f 纬度：%f]"%(address1, float(jw1.split(',')[0]), float(jw1.split(',')[1])))
-    print("签卡地址  [%s 的经度：%f 纬度：%f]"%(address2, float(jw2.split(',')[0]), float(jw2.split(',')[1])))
-    print("系统判断两者相距：%s ,系统判断是否为同一结果：%s"%(distance_2locations(address1,address2),compare_location(address1, address2, 500)))
-
+    print("记录单地址[%s 的经度：%f 纬度：%f]" % (address1, float(jw1.split(',')[0]), float(jw1.split(',')[1])))
+    print("签卡地址  [%s 的经度：%f 纬度：%f]" % (address2, float(jw2.split(',')[0]), float(jw2.split(',')[1])))
+    print("系统判断两者相距：%s ,系统判断是否为同一结果：%s" % (
+    distance_2locations(address1, address2), compare_location(address1, address2, 500)))
