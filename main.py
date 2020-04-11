@@ -425,8 +425,48 @@ for per_row in day_list:
     # 写入单元格信息
     ws_report.cell(row_index, col_index).value = cell_str
 
+# 读取出差单信息，扫描ws_report消除异常标准，并将单元格标记为出差
+# 读入IN出差单.xlsx,读取字段为姓名、实际出差时间、实际返回时间
+# OBT_list = be on business trip OBT
+OBT_list = []
+wb_OBT = openpyxl.load_workbook(filename="data/IN出差单.xlsx")
+ws_OBT = wb_OBT.active
+row_index = 1
+# 从第4行开始扫描记录
+for per_row in ws_OBT.iter_rows():
+    if row_index > 3:
+        name = per_row[1].value
+        start_date = per_row[13].value
+        end_date = per_row[14].value
+        # 将读入数据后加入OBT_list中
+        OBT_list.append([name, start_date, end_date])
+    row_index += 1
 
+# 逐条处理OBT_list中出差记录
+for per_row in OBT_list:
+    # 获出出差人、实际出差时间、实际返回时间
+    # per_row[0] 姓名
+    # per_row[1] 出差日期
+    start_date = per_row[1].strftime('%Y-%m-%d')
+    # per_row[2] 返回日期
+    end_date = per_row[2].strftime('%Y-%m-%d')
 
+    # 扫描ws_report报表
+    for row_index in range(2, ws_report.max_row + 1):
+        name = ws_report.cell(row_index, 3).value
+        # 在输出报表中找到对应出差人时，横向扫描所有日期
+        if name == per_row[0]: # per_row[0] is name
+            for col_index in range(4, ws_report.max_column + 1):
+                col_date = str(ws_report.cell(1, col_index).value)
+                # 若列时间位于出差日期和返回日期范围内
+                if start_date <= col_date <= end_date:
+                    # 读入对应单元格内容
+                    cell_str = str(ws_report.cell(row_index, col_index).value)
+                    # 判断单元格是否存在异常
+                    if cell_str.find('<') != -1 or cell_str == "None":
+                        ws_report.cell(row_index, col_index).value = "出差"
+                    else:
+                        ws_report.cell(row_index, col_index).value = "出差\n" + cell_str
 
 # 标注单元格颜色
 orange_fill = openpyxl.styles.PatternFill(fgColor="FFA500", fill_type='solid')
@@ -458,6 +498,8 @@ for row_index in range(2, ws_report.max_row + 1):
             ws_report.cell(row_index, col_index).fill = yellow_fill
         if cell_str.find("<") != -1:
             ws_report.cell(row_index, col_index).fill = orange_fill
+        if cell_str.find("出差") != -1:
+            ws_report.cell(row_index, col_index).fill = green_fill
         # 自动换行设置
         ws_report.cell(row_index, col_index).alignment = openpyxl.styles.Alignment(wrapText=True)
 
