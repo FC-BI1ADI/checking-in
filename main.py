@@ -52,6 +52,10 @@ for per_row in ws_OCR.iter_rows():
         department = per_row[0].value
         id = per_row[1].value
         name = per_row[2].value
+        # 若读入的姓名为空，则可能是导出的数据表中有空行则退出循环
+        if name == None:
+            print("ERROR:考勤签卡数据中检测到空行!")
+            break
         # 若为光头数据，默认为考勤机机卡，补充数据
         if len(per_row[3].value) == 16:
             per_row[3].value += "(考勤机)"
@@ -125,6 +129,10 @@ wb_MCR = openpyxl.load_workbook(filename="data/IN外勤签卡记录.xlsx")
 ws_MCR = wb_MCR.active
 row_index = 1
 for per_row in ws_MCR.iter_rows():
+    # 若读入的姓名为空，则可能是导出的数据表中有空行则退出循环
+    if per_row[1].value == None:
+        print("ERROR:外勤签卡数据中检测到空行!")
+        break
     if row_index > 1:
         check_time = time.strptime(per_row[4].value, "%Y-%m-%d %H:%M")
         MCR_list.append([per_row[0].value, per_row[1].value, per_row[2].value, check_time, per_row[3].value])
@@ -141,23 +149,35 @@ OW_list = []
 wb_outwork = openpyxl.load_workbook(filename="data/IN外出记录单.xlsx")
 ws_outwork = wb_outwork.active
 
-# 读和外出记录形成OW_list
+# 读入外出记录形成OW_list
 row_index = 1
 for per_row in ws_outwork.iter_rows():
+    # print(per_row[1].value,row_index)
     if row_index > 3:
-        OW_list.append(
-            [per_row[3].value, str(int(per_row[2].value)), per_row[1].value, per_row[4].value, per_row[9].value, []])
+        # 若读入的姓名为空，则可能是导出的数据表中有空行则退出循环
+        if per_row[1].value == None:
+            # print("\r"+"ERROR:外出记录数据中检测到空行(%s)!"%(row_index))
+            print("ERROR:外出记录单数据中检测到空行(行号：%s)!" % (row_index))
+        else:
+            OW_list.append(
+                [per_row[3].value, str(int(per_row[2].value)), per_row[1].value, per_row[4].value, per_row[9].value,
+                 []])
     row_index += 1
 
 # 比对外勤打卡记录MCR_list
 for i in range(0, len(OW_list)):
+    print("[%d]正在检验%s外勤记录( " % (i + 1, OW_list[i][2]),end='')
     for j in range(0, len(MCR_list)):
         id = MCR_list[j][1]
         date = "%4d-%02d-%02d" % (MCR_list[j][3].tm_year, MCR_list[j][3].tm_mon, MCR_list[j][3].tm_mday)
         # 判断核心逻辑：如果同一人、同一天、同一地点，则添加记录到OW_list中
+        if MCR_list[j][1] == OW_list[i][1] and date == OW_list[i][3]:
+            print("-",end="")
         if MCR_list[j][1] == OW_list[i][1] and date == OW_list[i][3] and CL.compare_location(MCR_list[j][4],
-                                                                                             OW_list[i][4], 500) == 1:
+                                                                                             OW_list[i][4], 800) == 1:
             OW_list[i][5].append("%02d:%02d" % (MCR_list[j][3].tm_hour, MCR_list[j][3].tm_min))
+            print("*",end=" ")
+    print(" )")
 
 # 添加OW_list中有效数据至check_list中
 for i in range(0, len(OW_list)):
@@ -180,14 +200,18 @@ ws_AFL = wb_AFL.active
 row_index = 1
 for per_row in ws_AFL.iter_rows():
     if row_index > 3:
-        department = per_row[3].value
-        # ID需要去除之前的0
-        id = str(int(per_row[2].value))
-        name = per_row[1].value
-        type = per_row[6].value
-        hst_time = time.strptime(per_row[7].value, "%Y-%m-%d %H:%M")
-        het_time = time.strptime(per_row[8].value, "%Y-%m-%d %H:%M")
-        AFL_list.append([department, id, name, type, hst_time, het_time])
+        # 若读入的姓名为空，则可能是导出的数据表中有空行则退出循环
+        if per_row[1].value == None:
+            print("ERROR:请假单数据中检测到空行(行号：%s)!"%(row_index))
+        else:
+            department = per_row[3].value
+            # ID需要去除之前的0
+            id = str(int(per_row[2].value))
+            name = per_row[1].value
+            type = per_row[6].value
+            hst_time = time.strptime(per_row[7].value, "%Y-%m-%d %H:%M")
+            het_time = time.strptime(per_row[8].value, "%Y-%m-%d %H:%M")
+            AFL_list.append([department, id, name, type, hst_time, het_time])
     row_index += 1
 
 # 分解每条假期记录，作为休假记录插入HD_list
@@ -447,17 +471,19 @@ for per_row in OBT_list:
     # 获出出差人、实际出差时间、实际返回时间
     # per_row[0] 姓名
     # per_row[1] 出差日期
-    start_date = per_row[1].strftime('%Y-%m-%d')
+
+    start_date = str(per_row[1])
     # per_row[2] 返回日期
-    end_date = per_row[2].strftime('%Y-%m-%d')
+    end_date = str(per_row[2])
 
     # 扫描ws_report报表
     for row_index in range(2, ws_report.max_row + 1):
         name = ws_report.cell(row_index, 3).value
         # 在输出报表中找到对应出差人时，横向扫描所有日期
-        if name == per_row[0]: # per_row[0] is name
+        if name == per_row[0]:  # per_row[0] is name
             for col_index in range(4, ws_report.max_column + 1):
-                col_date = str(ws_report.cell(1, col_index).value)
+                col_date = ws_report.cell(1, col_index).value
+
                 # 若列时间位于出差日期和返回日期范围内
                 if start_date <= col_date <= end_date:
                     # 读入对应单元格内容
@@ -481,11 +507,11 @@ for col_index in range(4, ws_report.max_column + 1):
     # 如果是周末，那就标注为休息并将单元格标为蓝色
     if date_header.tm_wday == 5 or date_header.tm_wday == 6:
         for row_index in range(2, ws_report.max_row + 1):
-            # if ws_report.cell(row_index, col_index).value == None:
-            #     ws_report.cell(row_index, col_index).value = "休息"
-            # else:
-            #     ws_report.cell(row_index, col_index).value = "休息\n" + str(ws_report.cell(row_index, col_index).value)
-            ws_report.cell(row_index, col_index).value = "休息"
+            if ws_report.cell(row_index, col_index).value == None:
+                ws_report.cell(row_index, col_index).value = "休息"
+            else:
+                ws_report.cell(row_index, col_index).value = "休息\n" + str(ws_report.cell(row_index, col_index).value)
+            # ws_report.cell(row_index, col_index).value = "休息"
             ws_report.cell(row_index, col_index).fill = blue_fill
 
 # 扫描ws_report表，如果单元格内容为空，则意味着缺少考勤记录标记为橙色
