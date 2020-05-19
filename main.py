@@ -165,18 +165,19 @@ for per_row in ws_outwork.iter_rows():
     row_index += 1
 
 # 比对外勤打卡记录MCR_list
-for i in range(0, len(OW_list)):
-    print("[%d]正在检验%s外勤记录( " % (i + 1, OW_list[i][2]),end='')
+len_OW_list = len(OW_list)
+for i in range(0, len_OW_list):
+    print("[%d-%d]正在检验%s外勤记录( " % (i + 1, len_OW_list, OW_list[i][2]), end='')
     for j in range(0, len(MCR_list)):
         id = MCR_list[j][1]
         date = "%4d-%02d-%02d" % (MCR_list[j][3].tm_year, MCR_list[j][3].tm_mon, MCR_list[j][3].tm_mday)
         # 判断核心逻辑：如果同一人、同一天、同一地点，则添加记录到OW_list中
         if MCR_list[j][1] == OW_list[i][1] and date == OW_list[i][3]:
-            print("-",end="")
+            print("-", end="")
         if MCR_list[j][1] == OW_list[i][1] and date == OW_list[i][3] and CL.compare_location(MCR_list[j][4],
                                                                                              OW_list[i][4], 800) == 1:
             OW_list[i][5].append("%02d:%02d" % (MCR_list[j][3].tm_hour, MCR_list[j][3].tm_min))
-            print("*",end=" ")
+            print("*", end=" ")
     print(" )")
 
 # 添加OW_list中有效数据至check_list中
@@ -202,16 +203,16 @@ for per_row in ws_AFL.iter_rows():
     if row_index > 3:
         # 若读入的姓名为空，则可能是导出的数据表中有空行则退出循环
         if per_row[1].value == None:
-            print("ERROR:请假单数据中检测到空行(行号：%s)!"%(row_index))
+            print("ERROR:请假单数据中检测到空行(行号：%s)!" % (row_index))
         else:
             department = per_row[3].value
             # ID需要去除之前的0
             id = str(int(per_row[2].value))
             name = per_row[1].value
-            type = per_row[6].value
+            ToS = per_row[6].value
             hst_time = time.strptime(per_row[7].value, "%Y-%m-%d %H:%M")
             het_time = time.strptime(per_row[8].value, "%Y-%m-%d %H:%M")
-            AFL_list.append([department, id, name, type, hst_time, het_time])
+            AFL_list.append([department, id, name, ToS, hst_time, het_time])
     row_index += 1
 
 # 分解每条假期记录，作为休假记录插入HD_list
@@ -223,7 +224,7 @@ for AFL_per_row in AFL_list:
     department = AFL_per_row[0]
     id = AFL_per_row[1]
     name = AFL_per_row[2]
-    type = AFL_per_row[3]
+    ToS = AFL_per_row[3]
     hst_time = AFL_per_row[4]
     het_time = AFL_per_row[5]
     days = DC.interval_day(hst_time, het_time) + 1
@@ -232,16 +233,16 @@ for AFL_per_row in AFL_list:
     if days == 1:
         cur_day_str = "%04d-%02d-%02d" % (hst_time.tm_year, hst_time.tm_mon, hst_time.tm_mday)
         h_time = "%02d:%02d-%02d:%02d" % (hst_time.tm_hour, hst_time.tm_min, het_time.tm_hour, het_time.tm_min)
-        HD_list.append([department, id, name, cur_day_str, type, h_time])
+        HD_list.append([department, id, name, cur_day_str, ToS, h_time])
     if days == 2:
         # 2天中的首日
         cur_day_str = "%04d-%02d-%02d" % (hst_time.tm_year, hst_time.tm_mon, hst_time.tm_mday)
         h_time = "%02d:%02d-17:31" % (hst_time.tm_hour, hst_time.tm_min)
-        HD_list.append([department, id, name, cur_day_str, type, h_time])
+        HD_list.append([department, id, name, cur_day_str, ToS, h_time])
         # 2天中的末日
         cur_day_str = "%04d-%02d-%02d" % (het_time.tm_year, het_time.tm_mon, het_time.tm_mday)
         h_time = "08:59-%02d:%02d" % (het_time.tm_hour, het_time.tm_min)
-        HD_list.append([department, id, name, cur_day_str, type, h_time])
+        HD_list.append([department, id, name, cur_day_str, ToS, h_time])
     if days > 2:
         for day_index in range(0, days):
             if day_index == 0:
@@ -255,7 +256,7 @@ for AFL_per_row in AFL_list:
                 cur_day_str = "%04d-%02d-%02d" % (het_time.tm_year, het_time.tm_mon, het_time.tm_mday)
                 h_time = "08:59-%02d:%02d" % (het_time.tm_hour, het_time.tm_min)
             # 将请假分解后的时间段写入HD_list
-            HD_list.append([department, id, name, cur_day_str, type, h_time])
+            HD_list.append([department, id, name, cur_day_str, ToS, h_time])
 
 #############################################################################
 # 功能：将HD_list中分解记录加入check_list
@@ -355,7 +356,7 @@ for per_row in day_list:
     min_time = "12:00"
     max_time = "12:00"
     for per_item in per_row[4]:
-        type = per_item[0:2]
+        ToS = per_item[0:2]
         start_time = per_item[3:8]
         end_time = per_item[9:14]
         # 计算当日最小值和最大值
@@ -363,7 +364,7 @@ for per_row in day_list:
             min_time = start_time
         if end_time > max_time and end_time != "XX:XX":
             max_time = end_time
-        if type == "考勤":
+        if ToS == "考勤":
             if start_time == "XX:XX":
                 AM = "<缺勤>"
             if end_time == "XX:XX":
@@ -390,13 +391,13 @@ for per_row in day_list:
             PM = "<早退>"
     # 单独处理外勤记录
     for per_item in per_row[4]:
-        type = per_item[0:2]
+        ToS = per_item[0:2]
         start_time = per_item[3:8]
         end_time = per_item[9:14]
-        if type == "外勤":
+        if ToS == "外勤":
             if start_time < "13:00":
                 AM = "出勤"
-            if end_time > "14:00":
+            if end_time > "15:00":
                 PM = "出勤"
     # 若上午或下午的标志位不是出勤，那么标记异常
     if AM != "出勤" or PM != "出勤":
@@ -468,13 +469,12 @@ for per_row in ws_OBT.iter_rows():
 
 # 逐条处理OBT_list中出差记录
 for per_row in OBT_list:
-    # 获出出差人、实际出差时间、实际返回时间
+    # 获取出差人、实际出差时间、实际返回时间
     # per_row[0] 姓名
     # per_row[1] 出差日期
-
-    start_date = str(per_row[1])
+    start_date = str(per_row[1])[0:10]
     # per_row[2] 返回日期
-    end_date = str(per_row[2])
+    end_date = str(per_row[2])[0:10]
 
     # 扫描ws_report报表
     for row_index in range(2, ws_report.max_row + 1):
@@ -483,7 +483,6 @@ for per_row in OBT_list:
         if name == per_row[0]:  # per_row[0] is name
             for col_index in range(4, ws_report.max_column + 1):
                 col_date = ws_report.cell(1, col_index).value
-
                 # 若列时间位于出差日期和返回日期范围内
                 if start_date <= col_date <= end_date:
                     # 读入对应单元格内容
@@ -520,7 +519,7 @@ for row_index in range(2, ws_report.max_row + 1):
         cell_str = str(ws_report.cell(row_index, col_index).value)
         # print(row_index,col_index,"-",cell_str)
         if cell_str == "None":
-            ws_report.cell(row_index, col_index).value = "<缺勤>"
+            ws_report.cell(row_index, col_index).value = "<旷工>"
             ws_report.cell(row_index, col_index).fill = yellow_fill
         if cell_str.find("<") != -1:
             ws_report.cell(row_index, col_index).fill = orange_fill
